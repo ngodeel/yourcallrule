@@ -9,7 +9,7 @@
     const PLUGIN_CONFIG = {
         id: 'callfilterPlugin',
         name: 'Call Filter (Regex)',
-        version: '6.1.3', 
+        version: '6.1.4', 
         description: 'Queries callfilter.app for phone number information using Regex.',
         config: {
             successMarker: "callfilter",
@@ -161,16 +161,17 @@
                  }
             }
 
-            const lowerLabel = (result.sourceLabel || '').toLowerCase();
+            const cleanStr = (s) => (s || '').replace(/[\u00a0\s]+/g, ' ').trim().toLowerCase();
+            const lowerLabel = cleanStr(result.sourceLabel);
             let matchedLabel = 'Unknown';
             for (const key in manualMapping) {
-                if (key.toLowerCase() === lowerLabel) {
+                if (cleanStr(key) === lowerLabel) {
                     matchedLabel = manualMapping[key];
                     break;
                 }
             }
             if (matchedLabel === 'Unknown') {
-                const match = predefinedLabels.find(l => l.label.toLowerCase() === lowerLabel);
+                const match = predefinedLabels.find(l => cleanStr(l.label) === lowerLabel);
                 if (match) matchedLabel = match.label;
             }
             result.predefinedLabel = matchedLabel;
