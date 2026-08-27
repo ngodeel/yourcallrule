@@ -81,8 +81,8 @@
     const allowKeywords = ['安全', '配送', '役所', '病院', '学校', '銀行', '公共施設', '警察', '消防', '運送', '引越し', 'Delivery', 'Medical', 'Government'];
 
     // --- Helpers ---
-    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message}`)); }
     
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {

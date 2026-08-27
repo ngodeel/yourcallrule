@@ -61,7 +61,7 @@
     const allowKeywords = ['快递', '送餐', '外卖', '客服', '银行', '验证码', '出租', '滴滴', '优步'];
 
     // --- 区域 3: 工具 ---
-    function log(msg) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${msg}`); }
+    function log(msg) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${msg}`)); }
     function sendPluginLoaded() {
         if (typeof sendMessage === 'function') {
             sendMessage('TestPageChannel', JSON.stringify({ type: 'pluginLoaded', pluginId: PLUGIN_CONFIG.id }));

@@ -1,4 +1,4 @@
-// [Universal_Regex_API_HTML_CN.js] - FlutterJS 通用正则 HTML 插件模板 V6.0
+// [Universal_Regex_API_HTML_CN.js] - FlutterJS 通用正则 HTML 插件模板 V6.1.2
 // =======================================================================================
 // 模板说明:
 // 专为 "HTML 下载 + 正则提取" 场景设计 (QuickJS 环境)。
@@ -10,7 +10,7 @@
     const PLUGIN_CONFIG = {
         id: 'universalRegexHtmlCn',
         name: '通用 HTML 正则插件 (CN)',
-        version: '6.0.0',
+        version: '6.1.2',
         description: 'Universal Regex Plugin using Native Channel',
         settings: [
             {
@@ -58,8 +58,8 @@
     const allowKeywords = ['快递', '外卖', '送餐', '客服', '银行', '验证码', '出租', '滴滴', '优步'];
 
     // --- 区域 3: 工具 ---
-    function log(msg) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${msg}`); }
-    function logError(msg) { sendMessage('Log', `[ERROR] ${msg}`); }
+    function log(msg) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${msg}`)); }
+    function logError(msg) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${msg}`)); }
     function sendPluginResult(res) {
         if (typeof sendMessage === 'function') {
             sendMessage('PluginResultChannel', JSON.stringify(res));

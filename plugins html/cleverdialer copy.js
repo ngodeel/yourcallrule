@@ -1,4 +1,4 @@
-// [cleverdialer copy.js] - Cleverdialer Plugin Copy (Pure FlutterJS Regex V6.1)
+﻿// [cleverdialer copy.js] - Cleverdialer Plugin Copy (Pure FlutterJS Regex V6.1)
 // =======================================================================================
 // Architecture: Native Channel (httpFetch) + Regex Parsing
 // No DOM/Iframe dependencies.
@@ -64,8 +64,8 @@
     const allowKeywords = ['Delivery', 'Takeaway', 'Insurance', 'Customer', 'Bank', 'Medical', 'Charity'];
 
     // --- Helpers ---
-    function log(message) { console.log(`[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { console.error(`[${PLUGIN_CONFIG.id}] ${message}`, error); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {

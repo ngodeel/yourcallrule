@@ -51,8 +51,8 @@
     const allowKeywords = ['Delivery', 'Courier', 'Support', 'Bank', 'Safe', 'Legit'];
 
     // --- SECTION 3: Helpers ---
-    function log(message) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message) { sendMessage('Log', `[ERROR] ${message}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[ERROR] ${message}`)); }
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {
             sendMessage('PluginResultChannel', JSON.stringify(result));

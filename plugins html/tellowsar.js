@@ -1,4 +1,4 @@
-// tellowsar.js - Tellows Arabic Plugin (Pure FlutterJS Regex V5.6.0)
+﻿// tellowsar.js - Tellows Arabic Plugin (Pure FlutterJS Regex V5.6.0)
 (function (scope) {
     // --- Plugin Configuration ---
     const PLUGIN_CONFIG = {
@@ -50,8 +50,8 @@
         'Kundenbetreuung', 'Fiable', 'Entrega', 'Positivo'
     ];
 
-    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {

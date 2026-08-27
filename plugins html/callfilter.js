@@ -9,7 +9,7 @@
     const PLUGIN_CONFIG = {
         id: 'callfilterPlugin',
         name: 'Call Filter (Regex)',
-        version: '6.1.0', 
+        version: '6.1.2', 
         description: 'Queries callfilter.app for phone number information using Regex.',
         config: {
             successMarker: "callfilter",
@@ -79,8 +79,8 @@
     ];
 
     // --- Helpers ---
-    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {
@@ -100,12 +100,13 @@
 
     // --- Core Logic ---
     function initiateQuery(phoneNumber, requestId) {
-        log(`Initiating Query: ${phoneNumber}`);
+        const cleanedNumber = (phoneNumber || '').replace(/\D/g, '');
+        log(`Initiating Query: ${cleanedNumber || phoneNumber}`);
         const config = (scope.plugin && scope.plugin[PLUGIN_CONFIG.id] && scope.plugin[PLUGIN_CONFIG.id].config) || {};
         const successMarker = config.successMarker || "callfilter"; 
         const userAgent = config.userAgent || 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
-        const targetUrl = `https://callfilter.app/${phoneNumber}`;
+        const targetUrl = `https://callfilter.app/${cleanedNumber || phoneNumber}`;
 
         try {
             sendMessage('httpFetch', JSON.stringify({

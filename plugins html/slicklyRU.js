@@ -1,4 +1,4 @@
-// [slicklyRU.js] - Slick.ly RU Plugin (Pure FlutterJS Regex V6.2)
+﻿// [slicklyRU.js] - Slick.ly RU Plugin (Pure FlutterJS Regex V6.2)
 // =======================================================================================
 // Architecture: Native Channel (httpFetch) + Regex Parsing
 // No DOM/Iframe dependencies.
@@ -113,8 +113,8 @@
     };
 
     // --- Helpers ---
-    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {
