@@ -134,7 +134,20 @@
             }
         }
 
-        const checkStr = (sourceLabel + " " + (manualMapping[sourceLabel.toLowerCase()] || 'Unknown')).toLowerCase();
+        const lowerLabel = (sourceLabel || '').toLowerCase();
+        let predefinedLabel = 'Unknown';
+        for (const key in manualMapping) {
+            if (key.toLowerCase() === lowerLabel) {
+                predefinedLabel = manualMapping[key];
+                break;
+            }
+        }
+        if (predefinedLabel === 'Unknown') {
+            const match = predefinedLabels.find(l => l.label.toLowerCase() === lowerLabel);
+            if (match) predefinedLabel = match.label;
+        }
+
+        const checkStr = (sourceLabel + " " + predefinedLabel).toLowerCase();
         let action = 'none';
         if (blockKeywords.some(k => checkStr.includes(k.toLowerCase()))) action = 'block';
         else if (allowKeywords.some(k => checkStr.includes(k.toLowerCase()))) action = 'allow';
@@ -144,7 +157,7 @@
             success: hasContent,
             source: PLUGIN_CONFIG.name,
             sourceLabel: sourceLabel || "No Match",
-            predefinedLabel: manualMapping[sourceLabel.toLowerCase()] || 'Unknown',
+            predefinedLabel: predefinedLabel,
             action: action
         });
     }
