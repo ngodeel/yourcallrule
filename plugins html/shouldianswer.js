@@ -1,4 +1,4 @@
-(function (scope) {
+﻿(function (scope) {
   // --- Plugin Configuration ---
   const PLUGIN_CONFIG = {
       id: 'shouldianswerPlugin',

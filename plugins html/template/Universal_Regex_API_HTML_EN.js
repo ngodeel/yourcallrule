@@ -1,4 +1,4 @@
-// [Universal_Regex_API_HTML_EN.js] - FlutterJS Universal HTML Regex Template V6.0
+// [Universal_Regex_API_HTML_EN.js] - FlutterJS Universal HTML Regex Template V6.1.2
 // =======================================================================================
 // TEMPLATE DESCRIPTION:
 // Universal Template for HTML Scraping via Regex in QuickJS.
@@ -9,7 +9,7 @@
     const PLUGIN_CONFIG = {
         id: 'universalRegexHtmlEn',
         name: 'Universal HTML Regex (EN)',
-        version: '6.0.0',
+        version: '6.1.2',
         description: 'Universal Regex Plugin using Native Channel',
         settings: [
             {
@@ -55,7 +55,8 @@
     const blockKeywords = ['Scam', 'Fraud', 'Spam', 'Telemarketing', 'Risk', 'Robocall'];
     const allowKeywords = ['Delivery', 'Courier', 'Support', 'Bank', 'Safe', 'Legit'];
 
-    function log(msg) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${msg}`); }
+    function log(msg) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${msg}`)); }
+    function logError(msg) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${msg}`)); }
     function sendPluginResult(res) {
         if (typeof sendMessage === 'function') {
             sendMessage('PluginResultChannel', JSON.stringify(res));

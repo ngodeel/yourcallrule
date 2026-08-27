@@ -1,4 +1,4 @@
-// [slickly CN.js] - Slick.ly CN Plugin (Pure FlutterJS Regex V6.0)
+﻿// [slickly CN.js] - Slick.ly CN Plugin (Pure FlutterJS Regex V6.0)
 // =======================================================================================
 // Architecture: Native Channel (httpFetch) + Regex Parsing
 // No DOM/Iframe dependencies.
@@ -75,8 +75,8 @@
     const allowKeywords = ['送货', '外卖', '快递', '美团', '饿了么', '出租', '滴滴', '网约车', '客服'];
 
     // --- Helpers ---
-    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {

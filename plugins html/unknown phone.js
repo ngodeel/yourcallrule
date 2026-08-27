@@ -1,4 +1,4 @@
-// unknownphone.com Phone Query Plugin - Iframe Proxy Solution
+﻿// unknownphone.com Phone Query Plugin - Iframe Proxy Solution
 (function (scope) {
     // --- Plugin Configuration ---
     const PLUGIN_CONFIG = {
@@ -70,8 +70,8 @@
     // --- Constants, State, Logging, and Communication functions ---
     // [Modernized] Removed Iframe proxy logic.
 
-    function log(message) { console.log(`[${PLUGIN_CONFIG.id} v${PLUGIN_CONFIG.version}] ${message}`); }
-    function logError(message, error) { console.error(`[${PLUGIN_CONFIG.id} v${PLUGIN_CONFIG.version}] ${message}`, error); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         log(`Sending final result to Flutter: ${JSON.stringify(result)}`);

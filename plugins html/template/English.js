@@ -73,8 +73,8 @@
     ];
 
     // --- SECTION 3: Helper Functions ---
-    function log(message) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message) { sendMessage('Log', `[${PLUGIN_CONFIG.id}] [ERROR] ${message}`); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {

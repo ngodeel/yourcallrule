@@ -1,4 +1,4 @@
-// [Truecaller] - Native RequestChannel Solution Universal Template V5.2 (Absolute Complete Version)
+﻿// [Truecaller] - Native RequestChannel Solution Universal Template V5.2 (Absolute Complete Version)
 // =======================================================================================
 // TEMPLATE DESCRIPTION:
 // Standardized API plugin template. Strictly aligns with the Iframe version (English.js) structure.
@@ -84,8 +84,8 @@
     ];
 
     // --- SECTION 3: Generic Framework (No need to modify) ---
-    function log(message) { console.log(`[${PLUGIN_CONFIG.id} v${PLUGIN_CONFIG.version}] ${message}`); }
-    function logError(message, error) { console.error(`[${PLUGIN_CONFIG.id} v${PLUGIN_CONFIG.version}] ${message}`, error); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendToFlutter(channel, data) {
         if (typeof sendMessage === 'function') {

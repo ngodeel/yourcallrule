@@ -1,4 +1,4 @@
-// [bd.js] - Baidu Phone Query Plugin (Pure FlutterJS Regex V6.1)
+﻿// [bd.js] - Baidu Phone Query Plugin (Pure FlutterJS Regex V6.1)
 // =======================================================================================
 // Architecture: Native Channel (httpFetch) + Regex Parsing
 // No DOM/Iframe dependencies.
@@ -59,8 +59,8 @@
     const allowKeywords = ['快递', '外卖', '送餐', '客服', '银行', '验证码', '出租', '滴滴', '优步'];
 
     // --- Helpers ---
-    function log(message) { console.log(`[${PLUGIN_CONFIG.id}] ${message}`); }
-    function logError(message, error) { console.error(`[${PLUGIN_CONFIG.id}] ${message}`, error); }
+    function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
+    function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
 
     function sendPluginResult(result) {
         if (typeof sendMessage === 'function') {
