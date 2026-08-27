@@ -120,7 +120,19 @@
             }
 
             if (result.sourceLabel && result.predefinedLabel === 'Unknown') {
-                result.predefinedLabel = manualMapping[result.sourceLabel] || 'Unknown';
+                const lowerLabel = (result.sourceLabel || '').toLowerCase();
+            let matchedLabel = 'Unknown';
+            for (const key in manualMapping) {
+                if (key.toLowerCase() === lowerLabel) {
+                    matchedLabel = manualMapping[key];
+                    break;
+                }
+            }
+            if (matchedLabel === 'Unknown') {
+                const match = predefinedLabels.find(l => l.label.toLowerCase() === lowerLabel);
+                if (match) matchedLabel = match.label;
+            }
+            result.predefinedLabel = matchedLabel;
             }
 
             return result;

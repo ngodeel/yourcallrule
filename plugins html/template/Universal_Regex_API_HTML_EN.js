@@ -125,13 +125,31 @@
             } catch(e) {}
         }
 
+        const lowerLabel = (sourceLabel || '').toLowerCase();
+        let predefinedLabel = 'Unknown';
+        for (const key in manualMapping) {
+            if (key.toLowerCase() === lowerLabel) {
+                predefinedLabel = manualMapping[key];
+                break;
+            }
+        }
+        if (predefinedLabel === 'Unknown') {
+            const match = predefinedLabels.find(l => l.label.toLowerCase() === lowerLabel);
+            if (match) predefinedLabel = match.label;
+        }
+
+        const checkStr = (sourceLabel + " " + predefinedLabel).toLowerCase();
+        let action = 'none';
+        if (blockKeywords.some(k => checkStr.includes(k.toLowerCase()))) action = 'block';
+        else if (allowKeywords.some(k => checkStr.includes(k.toLowerCase()))) action = 'allow';
+
         sendPluginResult({
             requestId,
             success: hasContent,
             source: PLUGIN_CONFIG.name,
-            sourceLabel: sourceLabel,
-            predefinedLabel: 'Unknown', // Enhancements needed here
-            action: blockKeywords.some(k => sourceLabel.includes(k)) ? 'block' : 'none'
+            sourceLabel: sourceLabel || "No Match",
+            predefinedLabel: predefinedLabel,
+            action: action
         });
     }
 
