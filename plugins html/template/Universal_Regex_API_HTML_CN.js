@@ -134,16 +134,17 @@
             }
         }
 
-        const lowerLabel = (sourceLabel || '').toLowerCase();
+        const cleanStr = (s) => (s || '').replace(/[\u00a0\s]+/g, ' ').trim().toLowerCase();
+        const lowerLabel = cleanStr(sourceLabel);
         let predefinedLabel = 'Unknown';
         for (const key in manualMapping) {
-            if (key.toLowerCase() === lowerLabel) {
+            if (cleanStr(key) === lowerLabel) {
                 predefinedLabel = manualMapping[key];
                 break;
             }
         }
         if (predefinedLabel === 'Unknown') {
-            const match = predefinedLabels.find(l => l.label.toLowerCase() === lowerLabel);
+            const match = predefinedLabels.find(l => cleanStr(l.label) === lowerLabel);
             if (match) predefinedLabel = match.label;
         }
 
