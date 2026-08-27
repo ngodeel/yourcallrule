@@ -9,7 +9,7 @@
     const PLUGIN_CONFIG = {
         id: 'callfilterPlugin',
         name: 'Call Filter (Regex)',
-        version: '6.1.2', 
+        version: '6.1.3', 
         description: 'Queries callfilter.app for phone number information using Regex.',
         config: {
             successMarker: "callfilter",
