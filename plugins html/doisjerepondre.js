@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'doisjerepondrePlugin',
         name: 'Doisjerepondre.fr (Regex)',
-        version: '6.1.0', 
+        version: '6.1.1',
         description: 'Queries doisjerepondre.fr for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "doisjerepondre",
         },
         settings: [
@@ -104,7 +105,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

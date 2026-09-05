@@ -11,6 +11,12 @@
         name: 'Universal HTML Regex (EN)',
         version: '6.1.2',
         description: 'Universal Regex Plugin using Native Channel',
+        // --- strategy specification ---
+        // 'direct' (default): Native HTTP / Regex extraction mode (SSR). 200 OK passes straight to JS regex. Unmarked numbers return No Match directly, NEVER triggering headless WebView.
+        // 'render': Headless WebView dynamic rendering mode (SPA). Used for AJAX sites like Baidu or Cloudflare challenge pages.
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         settings: [
             {
                 key: 'target_url',
@@ -90,7 +96,8 @@
             headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' },
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker
+            successMarker: successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

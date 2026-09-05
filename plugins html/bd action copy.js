@@ -15,9 +15,10 @@
     const PLUGIN_CONFIG = {
         id: 'baiduPhoneNumberPlugin',
         name: 'Baidu Phone Lookup (Regex)',
-        version: '6.1.2',
+        version: '6.1.3',
         description: 'Queries Baidu for phone number information using Regex parsing. Intelligently selects the best name.',
         config: {
+            strategy: 'render',
             successMarker: "百度安全号码认证平台",
         },
         settings: [
@@ -104,7 +105,8 @@
                 headers: headers,
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
             log("Request sent. Waiting for handleResponse...");
         } catch (e) {

@@ -4,7 +4,11 @@
       id: 'tellowsPlugin', // Plugin ID, must be unique
       name: 'Tellows', // Plugin name
       version: '5.6.0', // Modernized with Dio/Regex
-      description: 'Queries tellows.com for phone number information using direct fetch and regex parsing.', 
+      description: 'Queries tellows.com for phone number information using direct fetch and regex parsing.',
+      config: {
+          strategy: 'direct',
+          successMarker: "tellows"
+      },
   };
 
   const predefinedLabels = [
@@ -154,19 +158,18 @@
               }
           }
 
-          // 5. Mapping & Success
+          // 5. Mapping & Success (Latin Fuzzy Substring Matching)
           if (result.sourceLabel) {
-              const cleanStr = (s) => (s || '').replace(/[\u00a0\s]+/g, ' ').trim().toLowerCase();
-            const lowerLabel = cleanStr(result.sourceLabel);
+            const lowerLabel = (result.sourceLabel || '').toLowerCase();
             let matchedLabel = 'Unknown';
             for (const key in manualMapping) {
-                if (cleanStr(key) === lowerLabel) {
+                if (lowerLabel.includes(key.toLowerCase())) {
                     matchedLabel = manualMapping[key];
                     break;
                 }
             }
             if (matchedLabel === 'Unknown') {
-                const match = predefinedLabels.find(l => cleanStr(l.label) === lowerLabel);
+                const match = predefinedLabels.find(l => lowerLabel.includes(l.label.toLowerCase()));
                 if (match) matchedLabel = match.label;
             }
             result.predefinedLabel = matchedLabel;
@@ -220,14 +223,14 @@
           const parsed = parseHTML(html, final.phoneNumber || "");
 
           if (parsed.success) {
-              const label = parsed.predefinedLabel || parsed.sourceLabel;
-              if (label) {
-                  let determinedAction = 'none';
-                  const lowLabel = label.toLowerCase();
-                  for (const k of blockKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'block'; break; } }
-                  if (determinedAction === 'none') {
-                      for (const k of allowKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'allow'; break; } }
-                  }
+              const checkStr = (parsed.sourceLabel + " " + (parsed.predefinedLabel || '')).toLowerCase();
+              let determinedAction = 'none';
+              for (const k of blockKeywords) { if (checkStr.includes(k.toLowerCase())) { determinedAction = 'block'; break; } }
+              if (determinedAction === 'none') {
+                  for (const k of allowKeywords) { if (checkStr.includes(k.toLowerCase())) { determinedAction = 'allow'; break; } }
+              }
+              parsed.action = determinedAction;
+          }
                   parsed.action = determinedAction;
               }
           }

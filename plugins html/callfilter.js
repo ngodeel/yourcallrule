@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'callfilterPlugin',
         name: 'Call Filter (Regex)',
-        version: '6.1.4', 
+        version: '6.1.5',
         description: 'Queries callfilter.app for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "callfilter",
         },
         settings: [
@@ -115,7 +116,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

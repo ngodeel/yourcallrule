@@ -13,6 +13,9 @@
         name: 'Variant Plugin (Regex)',
         version: '6.0.0',
         description: 'Country-aware Regex Plugin for QuickJS',
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         settings: [
             {
                 key: 'api_key',
@@ -84,7 +87,8 @@
             headers: { 'User-Agent': 'Mozilla/5.0 (Linux; Android 10)' },
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker // ★ Bypassing Key ★
+            successMarker: successMarker, // ★ Bypassing Key ★
+            strategy: config.strategy || 'direct'
         }));
     }
 

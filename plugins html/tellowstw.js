@@ -6,7 +6,7 @@
         name: 'TellowsTW',
         version: '5.6.0',
         description: 'Queries www.tellows.tw for phone number information using Regex.',
-        config: { successMarker: "tellows" },
+        config: { strategy: 'direct', successMarker: "tellows" },
     };
 
     const predefinedLabels = [
@@ -177,7 +177,8 @@
 
         sendMessage('httpFetch', JSON.stringify({
             url: targetSearchUrl, method: 'GET', headers: { 'User-Agent': userAgent },
-            pluginId: PLUGIN_CONFIG.id, phoneRequestId: requestId, successMarker: successMarker
+            pluginId: PLUGIN_CONFIG.id, phoneRequestId: requestId, successMarker: successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

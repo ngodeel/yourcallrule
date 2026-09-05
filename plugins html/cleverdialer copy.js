@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'cleverdialerPlugin',
         name: 'Cleverdialer (Regex)',
-        version: '6.1.0',
+        version: '6.1.1',
         description: 'Queries cleverdialer.com for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "cleverdialer",
         },
         settings: [

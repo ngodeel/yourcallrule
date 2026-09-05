@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'meiwakucheckPlugin',
         name: 'Meiwaku Check',
-        version: '6.0.0',
+        version: '6.0.1',
         description: 'Queries meiwakucheck.com for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "meiwakucheck",
         },
         settings: [
@@ -110,7 +111,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

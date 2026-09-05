@@ -3,8 +3,12 @@
   const PLUGIN_CONFIG = {
       id: 'shouldianswerPlugin',
       name: 'Should I Answer (Regex)',
-      version: '1.3.0', // Modernized with Dio/Regex
+      version: '1.3.1', // Modernized with Dio/Regex
       description: 'Queries shouldianswer.com for phone number information using direct fetch and regex parsing.',
+      config: {
+          strategy: 'direct',
+          successMarker: "shouldianswer"
+      },
   };
 
   const predefinedLabels = [
@@ -152,10 +156,21 @@
               result.city = parts[parts.length - 1].trim();
           }
 
-          // 4. Mapping
+          // 4. Mapping (Latin Fuzzy Substring Matching)
           if (result.sourceLabel) {
-              result.predefinedLabel = manualMapping[result.sourceLabel.toUpperCase()] || 
-                                       manualMapping[result.sourceLabel] || 'Unknown';
+              const lowerLabel = result.sourceLabel.toLowerCase();
+              let matchedLabel = 'Unknown';
+              for (const key in manualMapping) {
+                  if (lowerLabel.includes(key.toLowerCase())) {
+                      matchedLabel = manualMapping[key];
+                      break;
+                  }
+              }
+              if (matchedLabel === 'Unknown') {
+                  const match = predefinedLabels.find(l => lowerLabel.includes(l.label.toLowerCase()));
+                  if (match) matchedLabel = match.label;
+              }
+              result.predefinedLabel = matchedLabel;
           }
 
           return result;
@@ -205,16 +220,13 @@
 
           parsed.requestId = requestId;
           if (parsed.success) {
-              const label = parsed.predefinedLabel || parsed.sourceLabel;
-              if (label) {
-                  let determinedAction = 'none';
-                  const lowLabel = label.toLowerCase();
-                  for (const k of blockKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'block'; break; } }
-                  if (determinedAction === 'none') {
-                      for (const k of allowKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'allow'; break; } }
-                  }
-                  parsed.action = determinedAction;
+              const checkStr = (parsed.sourceLabel + " " + (parsed.predefinedLabel || '')).toLowerCase();
+              let determinedAction = 'none';
+              for (const k of blockKeywords) { if (checkStr.includes(k.toLowerCase())) { determinedAction = 'block'; break; } }
+              if (determinedAction === 'none') {
+                  for (const k of allowKeywords) { if (checkStr.includes(k.toLowerCase())) { determinedAction = 'allow'; break; } }
               }
+              parsed.action = determinedAction;
           }
 
           parsed.requestId = requestId;

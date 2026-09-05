@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'slicklyPhoneNumberPlugin',
         name: 'Slick.ly Global (Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries Slick.ly for phone number information using Regex (Global).',
         config: {
+            strategy: 'direct',
             successMarker: "slickly",
         },
         settings: [
@@ -130,7 +131,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);
