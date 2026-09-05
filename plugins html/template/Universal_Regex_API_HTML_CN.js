@@ -12,6 +12,12 @@
         name: '通用 HTML 正则插件 (CN)',
         version: '6.1.2',
         description: 'Universal Regex Plugin using Native Channel',
+        // --- strategy 策略说明 ---
+        // 'direct' (默认): 原生 HTTP / 正则提取模式 (SSR)。适用于 90%+ 搜索网站。200 OK 网页直接传给 JS 正则解析，未标记号码返回 No Match，绝不触发无头 WebView。
+        // 'render': 无头 WebView 动态渲染/过盾模式 (SPA)。适用于百度等 AJAX 动态渲染或需要 Cloudflare 盾渲染的网页。
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         settings: [
             {
                 key: 'target_url',
@@ -96,7 +102,8 @@
             },
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker
+            successMarker: successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

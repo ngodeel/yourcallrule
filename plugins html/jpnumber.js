@@ -9,8 +9,12 @@
     const PLUGIN_CONFIG = {
         id: 'telnaviPlugin', // Preserved from original
         name: 'Telnavi (jpnumber) (Regex)',
-        version: '6.1.0', 
+        version: '6.1.1',
         description: 'Queries jpnumber.com for phone number information using Regex.',
+        config: {
+            strategy: 'direct',
+            successMarker: "jpnumber",
+        },
         settings: [
              { key: 'successMarker', label: 'Success Marker', type: 'text', hint: 'Bypass Marker', required: false }
         ]
@@ -117,7 +121,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("httpFetch failed: " + e.message);

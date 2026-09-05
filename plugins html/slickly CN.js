@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'slicklyCnPhoneNumberPlugin',
         name: 'Slick.ly CN Phone Lookup (Regex)',
-        version: '6.0.0',
+        version: '6.0.1',
         description: 'Queries Slick.ly for CN phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "slickly",
             countryCode: "cn"
         },
@@ -112,7 +113,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

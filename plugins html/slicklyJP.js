@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'slicklyJpPhoneNumberPlugin',
         name: 'Slick.ly JP (Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries Slick.ly (JP) for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "slickly",
             countryCode: "jp"
         },

@@ -7,9 +7,10 @@
     const PLUGIN_CONFIG = {
         id: 'sooPhoneNumberPlugin',
         name: 'Soo (Dio/Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries so.com using Dio and Regex parsing with standard structure.',
         config: {
+            strategy: 'direct',
             successMarker: "标记",
         }
     };
@@ -147,7 +148,8 @@
             headers: { 'User-Agent': userAgent },
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: PLUGIN_CONFIG.config.successMarker
+            successMarker: PLUGIN_CONFIG.config.successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

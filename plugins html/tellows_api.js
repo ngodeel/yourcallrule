@@ -21,6 +21,9 @@
         name: 'Tellows API Lookup', // Readable Plugin Name
         version: '1.2.0', // Plugin Version
         description: 'Queries Tellows API using Native RequestChannel (XML).', // Plugin Description
+        config: {
+            strategy: 'direct',
+        },
         // Settings Definition
         settings: [
             {
@@ -137,7 +140,8 @@
             headers: options.headers,    // Http Headers
             body: options.body || null,  // Body (for POST/PUT)
             phoneRequestId: options.requestId,
-            externalRequestId: options.requestId
+            externalRequestId: options.requestId,
+            strategy: 'direct'
         };
 
         log(`Sending Native Request: ${payload.method} ${payload.url}`);

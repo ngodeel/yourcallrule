@@ -16,8 +16,11 @@
     const PLUGIN_CONFIG = {
         id: 'unknownPhonePlugin', // Unique Plugin ID
         name: 'UnknownPhone API Lookup', // Readable Plugin Name
-        version: '1.2.1', // Plugin Version
+        version: '1.2.2', // Plugin Version
         description: 'Queries UnknownPhone API using Native RequestChannel.', // Plugin Description
+        config: {
+            strategy: 'direct',
+        },
         // Settings Definition
         settings: [
             {

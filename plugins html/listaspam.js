@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'listaspamPlugin',
         name: 'ListaspamES',
-        version: '6.0.0',
+        version: '6.0.1',
         description: 'Queries listaspam.com for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "listaspam",
         },
         settings: [
@@ -162,7 +163,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

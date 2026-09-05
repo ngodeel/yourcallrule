@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'slicklyTwHkPhoneNumberPlugin',
         name: 'Slick.ly TW/HK/MO Phone Lookup (Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries Slick.ly for TW/HK/MO phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "slickly",
         },
         settings: [
@@ -114,7 +115,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);

@@ -19,6 +19,12 @@
         name: 'Your Chinese Plugin Name', // 插件名称
         version: '6.0.0', // 版本号
         description: 'Pure FlutterJS Regex Plugin for Chinese Websites',
+        // --- strategy 策略说明 ---
+        // 'direct' (默认): 原生 HTTP 直连模式。查无数据直接返回，不切 WebView。
+        // 'render': 无头 WebView 动态渲染模式。适用于百度等 AJAX 动态网页。
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         // 配置项定义 (不可删除)
         settings: [
             {
@@ -119,7 +125,8 @@
             headers: headers,
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker // ★ 传递给 Native 用于过盾检测 ★
+            successMarker: successMarker, // ★ 传递给 Native 用于过盾检测 ★
+            strategy: config.strategy || 'direct'
         }));
     }
 

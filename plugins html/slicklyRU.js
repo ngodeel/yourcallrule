@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'slicklyRuPhoneNumberPlugin',
         name: 'Slick.ly RU (Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries Slick.ly (RU) for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "slickly",
         },
         settings: [

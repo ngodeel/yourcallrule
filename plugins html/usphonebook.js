@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'usphonebookPhoneNumberPlugin',
         name: 'USPhonebook Phone Lookup (Regex)',
-        version: '6.0.0',
+        version: '6.0.1',
         description: 'Queries usphonebook.com for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "usphonebook",
         },
         settings: [
@@ -63,6 +64,22 @@
         { label: 'Telecommunication' }
     ];
 
+    const manualMapping = {
+        'spam': 'Spam Likely',
+        'fraud': 'Fraud Scam Likely',
+        'danger': 'Risk',
+        'safe': 'Other',
+        'success': 'Other'
+    };
+
+    const blockKeywords = [
+        'Spam', 'Scam', 'Fraud', 'Telemarketing', 'Robocall', 'Debt', 'Risk', 'Silent', 'Danger', 'Harassment'
+    ];
+
+    const allowKeywords = [
+        'Delivery', 'Takeaway', 'Insurance', 'Customer Service', 'Bank', 'Medical', 'Charity', 'Trusted', 'Safe', 'Allow'
+    ];
+
     // --- Helpers ---
     function log(message) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] ${message}`)); }
     function logError(message, error) { if (typeof sendMessage === 'function') sendMessage('Log', JSON.stringify(`[${PLUGIN_CONFIG.id}] [ERROR] ${message} ${error ? error.toString() : ''}`)); }
@@ -108,7 +125,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);
@@ -179,18 +197,14 @@
             const parsed = parseHTML(html, final.phoneNumber || "");
 
             if (parsed.success) {
-                 const label = parsed.predefinedLabel || result.sourceLabel; // wait result is not defined here
-            }
-            // Correcting logic
-            if (parsed.success) {
-                 const label = parsed.predefinedLabel || parsed.sourceLabel;
-                 if (label) {
-                     let determinedAction = 'none';
-                     const lowLabel = label.toLowerCase();
-                     if (lowLabel.includes('spam') || lowLabel.includes('fraud') || lowLabel.includes('danger')) determinedAction = 'block';
-                     else if (lowLabel.includes('safe') || lowLabel.includes('success')) determinedAction = 'allow';
-                     parsed.action = determinedAction;
-                 }
+                const checkStr = (parsed.sourceLabel + " " + (parsed.predefinedLabel || '')).toLowerCase();
+                let determinedAction = 'none';
+                if (blockKeywords.some(k => checkStr.includes(k.toLowerCase()))) {
+                    determinedAction = 'block';
+                } else if (allowKeywords.some(k => checkStr.includes(k.toLowerCase()))) {
+                    determinedAction = 'allow';
+                }
+                parsed.action = determinedAction;
             }
 
             parsed.requestId = requestId;

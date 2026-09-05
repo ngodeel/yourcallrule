@@ -4,8 +4,12 @@
     const PLUGIN_CONFIG = {
         id: 'unknownphonePhoneNumberPlugin', // Unique ID for this plugin
         name: 'UnknownPhone Phone Lookup (Regex)',
-        version: '1.1.0', // Modernized with Dio/Regex
-        description: 'Queries unknownphone.com for phone number information using direct fetch and regex parsing.'
+        version: '1.1.1', // Modernized with Dio/Regex
+        description: 'Queries unknownphone.com for phone number information using direct fetch and regex parsing.',
+        config: {
+            strategy: 'direct',
+            successMarker: "unknownphone"
+        },
     };
 
     // --- Our application's predefined labels (provided by the user) ---
@@ -65,6 +69,13 @@
         'Recruitment': 'Recruiter',
         'job scam call': 'Fraud Scam Likely'
    };
+
+    const blockKeywords = [
+        'Spam', 'Scam', 'Fraud', 'Telemarketing', 'Robocall', 'Debt', 'Risk', 'Silent', 'Dangerous', 'Harassing', 'Prank', 'Threats'
+    ];
+    const allowKeywords = [
+        'Delivery', 'Takeaway', 'Insurance', 'Customer Service', 'Bank', 'Medical', 'Charity', 'Trusted', 'Safe'
+    ];
 
 
     // --- Constants, State, Logging, and Communication functions ---
@@ -168,7 +179,8 @@
                  method: 'GET',
                  headers: { 'User-Agent': userAgent },
                  pluginId: PLUGIN_CONFIG.id,
-                 phoneRequestId: requestId
+                 phoneRequestId: requestId,
+                 strategy: config.strategy || 'direct'
              }));
          } catch (error) {
              logError(`Error in initiateQuery for requestId ${requestId}:`, error);
@@ -195,16 +207,14 @@
             const parsed = parseHTML(html, final.phoneNumber || "");
 
             if (parsed.success) {
-                const label = parsed.predefinedLabel || parsed.sourceLabel;
-                if (label) {
-                    let determinedAction = 'none';
-                    const lowLabel = label.toLowerCase();
-                    for (const k of blockKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'block'; break; } }
-                    if (determinedAction === 'none') {
-                        for (const k of allowKeywords) { if (lowLabel.includes(k.toLowerCase())) { determinedAction = 'allow'; break; } }
-                    }
-                    parsed.action = determinedAction;
+                const checkStr = (parsed.sourceLabel + " " + (parsed.predefinedLabel || '')).toLowerCase();
+                let determinedAction = 'none';
+                if (blockKeywords.some(k => checkStr.includes(k.toLowerCase()))) {
+                    determinedAction = 'block';
+                } else if (allowKeywords.some(k => checkStr.includes(k.toLowerCase()))) {
+                    determinedAction = 'allow';
                 }
+                parsed.action = determinedAction;
             }
 
             parsed.requestId = requestId;

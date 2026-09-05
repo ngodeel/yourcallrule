@@ -15,6 +15,9 @@
         name: 'API Plugin Template (CN)',
         version: '6.0.0',
         description: 'Standard API Plugin using Native Channel',
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         settings: [
             {
                 key: 'api_key',
@@ -107,7 +110,8 @@
             body: body,
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker 
+            successMarker: successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

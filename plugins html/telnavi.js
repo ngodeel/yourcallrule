@@ -3,8 +3,12 @@
     const PLUGIN_CONFIG = {
         id: 'jpnumberPlugin',
         name: 'JPNumber Lookup (Regex)',
-        version: '1.1.0', // Modernized with Dio/Regex
+        version: '1.1.1', // Modernized with Dio/Regex
         description: 'Queries jpnumber.com for phone number information using direct fetch and regex parsing.',
+        config: {
+            strategy: 'direct',
+            successMarker: "jpnumber"
+        },
     };
 
     // --- Predefined Labels ---
@@ -139,7 +143,8 @@
                 method: 'GET',
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
-                phoneRequestId: requestId
+                phoneRequestId: requestId,
+                strategy: config.strategy || 'direct'
             }));
         } catch (error) {
             logError(`Error in initiateQuery for requestId ${requestId}:`, error);

@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'cleverdialeresPlugin',
         name: 'Cleverdialer ES (Regex)',
-        version: '6.2.0',
+        version: '6.2.1',
         description: 'Queries cleverdialer.es for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "cleverdialer",
         },
         settings: [
@@ -124,7 +125,8 @@
                 headers: headers,
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError('Query Setup Failed', e);

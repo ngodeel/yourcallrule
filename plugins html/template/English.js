@@ -19,6 +19,12 @@
         name: 'Your English Plugin Name', // Display Name
         version: '6.0.0',
         description: 'Pure FlutterJS Regex Plugin for English Websites',
+        // --- strategy specification ---
+        // 'direct' (default): Native HTTP / Regex mode. 200 OK passes straight to JS. Unmarked numbers return No Match directly.
+        // 'render': Headless WebView dynamic rendering mode (SPA).
+        config: {
+            strategy: 'direct', // 'direct' | 'render'
+        },
         // Settings Definitions (DO NOT DELETE)
         settings: [
             {
@@ -119,7 +125,8 @@
             headers: headers,
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: successMarker // ★ Pass Success Marker for Bypass ★
+            successMarker: successMarker, // ★ Pass Success Marker for Bypass ★
+            strategy: config.strategy || 'direct'
         }));
     }
 

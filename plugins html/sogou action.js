@@ -7,9 +7,10 @@
     const PLUGIN_CONFIG = {
         id: 'sogouPhoneNumberPlugin',
         name: 'Sogou (Dio/Regex)',
-        version: '2.0.0',
+        version: '2.0.1',
         description: 'Queries sogou.com using Dio and Regex parsing.',
         config: {
+            strategy: 'direct',
             successMarker: "搜狗搜索",
         }
     };
@@ -150,7 +151,8 @@
             headers: { 'User-Agent': userAgent },
             pluginId: PLUGIN_CONFIG.id,
             phoneRequestId: requestId,
-            successMarker: PLUGIN_CONFIG.config.successMarker
+            successMarker: PLUGIN_CONFIG.config.successMarker,
+            strategy: config.strategy || 'direct'
         }));
     }
 

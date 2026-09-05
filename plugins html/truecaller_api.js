@@ -16,8 +16,11 @@
     const PLUGIN_CONFIG = {
         id: 'truecallerApi', // Must match Dart callback ID usage logic (if dynamic) or keep unique
         name: 'Truecaller (API)', 
-        version: '1.2.0', 
+        version: '1.2.1',
         description: 'Truecaller API Lookup via Native RequestChannel',
+        config: {
+            strategy: 'direct',
+        },
         // Settings Definition
         settings: [
             {

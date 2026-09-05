@@ -9,9 +9,10 @@
     const PLUGIN_CONFIG = {
         id: 'odebractelefonPlugin',
         name: 'Odebrac Telefon',
-        version: '6.0.0',
+        version: '6.0.1',
         description: 'Queries odebractelefon.pl for phone number information using Regex.',
         config: {
+            strategy: 'direct',
             successMarker: "odebractelefon",
         },
         settings: [
@@ -134,7 +135,8 @@
                 headers: { 'User-Agent': userAgent },
                 pluginId: PLUGIN_CONFIG.id,
                 phoneRequestId: requestId,
-                successMarker: successMarker
+                successMarker: successMarker,
+                strategy: config.strategy || 'direct'
             }));
         } catch (e) {
             logError("Query Setup Failed", e);
