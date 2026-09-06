@@ -9,7 +9,7 @@
     const PLUGIN_CONFIG = {
         id: 'cleverdialerPlugin',
         name: 'Cleverdialer (Regex)',
-        version: '6.1.1',
+        version: '6.1.2',
         description: 'Queries cleverdialer.com for phone number information using Regex.',
         config: {
             strategy: 'direct',
@@ -124,20 +124,19 @@
             const labelMatch = html.match(labelRegex);
             if (labelMatch) {
                 result.sourceLabel = labelMatch[1].trim();
-                const cleanStr = (s) => (s || '').replace(/[\u00a0\s]+/g, ' ').trim().toLowerCase();
-            const lowerLabel = cleanStr(result.sourceLabel);
-            let matchedLabel = 'Unknown';
-            for (const key in manualMapping) {
-                if (cleanStr(key) === lowerLabel) {
-                    matchedLabel = manualMapping[key];
-                    break;
+                const lowerLabel = result.sourceLabel.toLowerCase();
+                let matchedLabel = 'Unknown';
+                for (const key in manualMapping) {
+                    if (lowerLabel.includes(key.toLowerCase()) || key.toLowerCase().includes(lowerLabel)) {
+                        matchedLabel = manualMapping[key];
+                        break;
+                    }
                 }
-            }
-            if (matchedLabel === 'Unknown') {
-                const match = predefinedLabels.find(l => cleanStr(l.label) === lowerLabel);
-                if (match) matchedLabel = match.label;
-            }
-            result.predefinedLabel = matchedLabel;
+                if (matchedLabel === 'Unknown') {
+                    const match = predefinedLabels.find(l => lowerLabel.includes(l.label.toLowerCase()) || l.label.toLowerCase().includes(lowerLabel));
+                    if (match) matchedLabel = match.label;
+                }
+                result.predefinedLabel = matchedLabel;
             }
 
             // 2. Star Rating Extraction
